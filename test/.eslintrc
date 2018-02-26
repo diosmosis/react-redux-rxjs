@@ -1,0 +1,11 @@
+{
+  "extends": "../.eslintrc",
+  "env": {
+    "browser": true,
+    "node": true,
+    "mocha": true
+  },
+  "globals": {
+    "jsdom": true,
+  }
+}

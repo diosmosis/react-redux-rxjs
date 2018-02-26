@@ -1,0 +1,66 @@
+{
+  "name": "react-redux-rxjs",
+  "version": "0.1.0",
+  "description": "Observable integration with react and redux for observable sagas + a simpler way to connect your store to your react component.",
+  "main": "react-redux-rxjs.js",
+  "scripts": {
+    "test": "gulp",
+    "lint": "gulp lint",
+    "watch": "gulp watch",
+    "build": "gulp build",
+    "coverage": "gulp coverage",
+    "publish-dist": "yarn build && yarn publish dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/diosmosis/react-redux-rxjs.git"
+  },
+  "keywords": [],
+  "author": "diosmosis <diosmosis.github@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/diosmosis/react-redux-rxjs/issues"
+  },
+  "homepage": "https://github.com/diosmosis/react-redux-rxjs",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.2.2",
+    "babel-loader": "^7.1.2",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-latest": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "babel-register": "^6.26.0",
+    "chai": "^4.1.2",
+    "del": "^3.0.0",
+    "eslint": "^4.18.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.9.0",
+    "glob": "^7.1.2",
+    "gulp": "^3.9.1",
+    "gulp-eslint": "^4.0.2",
+    "gulp-filter": "^5.1.0",
+    "gulp-istanbul": "^1.1.3",
+    "gulp-livereload": "^3.8.1",
+    "gulp-load-plugins": "^1.5.0",
+    "gulp-mocha": "^5.0.0",
+    "gulp-plumber": "^1.2.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp-uglify": "^3.0.0",
+    "isparta": "^4.0.0",
+    "jsdom": "^11.6.2",
+    "json-loader": "^0.5.7",
+    "mocha": "^5.0.1",
+    "redux": "^3.7.2",
+    "sinon": "^4.4.1",
+    "sinon-chai": "^2.14.0",
+    "webpack": "^4.0.0",
+    "webpack-stream": "^4.0.2"
+  },
+  "babelBoilerplateOptions": {
+    "entryFileName": "index.js"
+  },
+  "peerDependencies": {
+    "rxjs": "^5.5.6"
+  }
+}
