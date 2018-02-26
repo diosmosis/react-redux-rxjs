@@ -87,8 +87,8 @@ function _mocha() {
     .pipe($.mocha({
       reporter: 'spec',
       ignoreLeaks: false,
-      compilers: [
-        'js:babel-core/register',
+      require: [
+        'babel-core/register',
       ],
     }));
 }

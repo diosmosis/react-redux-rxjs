@@ -8,7 +8,7 @@ import { expect } from 'chai';
 import * as Rx from 'rxjs';
 import { middleware } from '../src';
 
-describe('middleware', () => {
+describe('sagas', () => {
   it('should pipe all saga observable output into the store\'s dispatch function', async () => {
     const capturedActions = [];
 
