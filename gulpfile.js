@@ -66,10 +66,13 @@ function build() {
           {test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel-loader'}
         ]
       },
+      resolve: {
+        extensions: ['.js', '.jsx', '.json'],
+      },
       devtool: 'source-map'
     }))
     .pipe(gulp.dest(destinationFolder))
-    .pipe($.filter(['**', '!**/*.js.map']))
+    .pipe($.filter(['**', '!**/*.js*.map']))
     .pipe($.rename(`${exportFileName}.min.js`))
     .pipe($.sourcemaps.init({loadMaps: true}))
     .pipe($.uglify())
@@ -104,7 +107,7 @@ function test() {
 
 function coverage(done) {
   _registerBabel();
-  gulp.src(['src/**/*.js'])
+  gulp.src(['src/**/*.js*'])
     .pipe($.istanbul({
       instrumenter: Instrumenter,
       includeUntested: true

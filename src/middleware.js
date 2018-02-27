@@ -3,7 +3,7 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-import { Observable } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
 export default function middleware(...sagas) {

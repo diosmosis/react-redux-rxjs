@@ -20,17 +20,20 @@ export default class Provider extends Component {
     this.state$ = new ReplaySubject(REPLAY_BUFFER_SIZE);
     this.state$.next(this.store.getState());
 
-    this.subscription = this.store.subscribe(() => {
+    this.unsubscribe = this.store.subscribe(() => {
       this.state$.next(this.store.getState());
     });
   }
 
-  componentWillUnmount() {
-    this.subscription.unsubscribe();
-  }
-
   getChildContext() {
     return { store: this.store, state$: this.state$ };
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
+
+    delete this.store;
+    delete this.state$;
   }
 
   render() {
