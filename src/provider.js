@@ -17,15 +17,16 @@ export default class Provider extends Component {
 
     this.store = props.store;
 
-    // TODO: when to unsubscribe? (for middleware as well). can stores be destroyed?
     this.state$ = new ReplaySubject(REPLAY_BUFFER_SIZE);
     this.state$.next(this.store.getState());
 
-    this.store.subscribe(() => {
+    this.subscription = this.store.subscribe(() => {
       this.state$.next(this.store.getState());
     });
+  }
 
-    // TODO: let's add a select operator to rxjs
+  componentWillUnmount() {
+    this.subscription.unsubscribe();
   }
 
   getChildContext() {

@@ -3,6 +3,7 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
+import { Observable } from 'rxjs/Subject';
 import { Subject } from 'rxjs/Subject';
 
 export default function middleware(...sagas) {
@@ -10,19 +11,16 @@ export default function middleware(...sagas) {
     // the subject that we broadcast each action to.
     const actionSubject = new Subject();
 
-    // TODO: should try to detect recursion
+    // TODO: should try to detect recursion during development
     // invoke the sagas and subscribe to the saga observable, dispatching anything
     // that comes through.
-    sagas.map(saga => saga(actionSubject)).forEach((observable) => {
-      observable.subscribe({
-        next: (nextAction) => {
-          if (!nextAction) {
-            return undefined;
-          }
+    const inner = sagas.map(saga => saga(actionSubject));
+    Observable.merge(...inner).subscribe((nextAction) => {
+      if (!nextAction) {
+        return undefined;
+      }
 
-          return store.dispatch(nextAction);
-        },
-      });
+      return store.dispatch(nextAction);
     });
 
     return next => (action) => {
