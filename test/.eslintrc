@@ -6,6 +6,9 @@
     "mocha": true
   },
   "globals": {
-    "jsdom": true,
+    "jsdom": true
+  },
+  "rules": {
+    "no-unused-expressions": [0]
   }
 }

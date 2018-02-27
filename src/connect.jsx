@@ -32,9 +32,12 @@ export default function connect(WrappedComponent, mapStoreToProps) {
           result = Observable.of(value);
         }
 
-        return result.catch(e => {
-          console.log(`Error caught in ${propName} observable for connected ${WrappedComponent.name}:`,
-            e.stack || e.message || e);
+        return result.catch((e) => {
+          // eslint-disable-next-line no-console
+          console.log(
+            `Error caught in ${propName} observable for connected ${WrappedComponent.name}:`,
+            e.stack || e.message || e,
+          );
 
           return Observable.empty();
         }).map(v => [propName, v]);
@@ -61,4 +64,4 @@ export default function connect(WrappedComponent, mapStoreToProps) {
   };
 
   return ConnectedComponent;
-};
+}

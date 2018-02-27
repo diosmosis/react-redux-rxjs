@@ -12,10 +12,6 @@ import storeShape from './store-shape';
 const REPLAY_BUFFER_SIZE = 1;
 
 export default class Provider extends Component {
-  getChildContext() {
-    return { store: this.store, state$: this.state$ };
-  }
-
   constructor(props, context) {
     super(props, context);
 
@@ -32,6 +28,10 @@ export default class Provider extends Component {
     // TODO: let's add a select operator to rxjs
   }
 
+  getChildContext() {
+    return { store: this.store, state$: this.state$ };
+  }
+
   render() {
     return Children.only(this.props.children);
   }
@@ -40,9 +40,11 @@ export default class Provider extends Component {
 Provider.propTypes = {
   store: storeShape.isRequired,
   children: PropTypes.element.isRequired,
-}
+};
+
 Provider.childContextTypes = {
   state$: PropTypes.instanceOf(Subject).isRequired,
   store: storeShape.isRequired,
-}
-Provider.displayName = 'Provider'
+};
+
+Provider.displayName = 'Provider';

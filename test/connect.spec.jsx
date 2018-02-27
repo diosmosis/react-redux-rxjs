@@ -3,11 +3,12 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-import * as Rx from 'rxjs';
+import 'rxjs';
 import { createStore, applyMiddleware } from 'redux';
 import { expect } from 'chai';
-import React, { Component } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import { middleware, connect, Provider } from '../src';
 
 const INITIAL_STATE = {
@@ -29,7 +30,7 @@ function reducer(state = INITIAL_STATE, action) {
   }
 }
 
-describe('connect', function () {
+describe('connect', () => {
   function Counter({ counter, otherVal, onIncrement }) {
     return (
       <div>
@@ -40,30 +41,38 @@ describe('connect', function () {
     );
   }
 
-  const ConnectedComponent = connect(Counter, (state$) => {
-    return {
-      counter: state$.pluck('counter'),
-      otherVal: 10,
-      onIncrement: () => dispatch({ type: 'increment' }),
-    };
-  });
+  Counter.propTypes = {
+    counter: PropTypes.number,
+    otherVal: PropTypes.number,
+    onIncrement: PropTypes.func,
+  };
+
+  Counter.defaultProps = {
+    counter: null,
+    otherVal: null,
+    onIncrement: () => null,
+  };
+
+  const ConnectedComponent = connect(Counter, (state$, dispatch) => ({
+    counter: state$.pluck('counter'),
+    otherVal: 10,
+    onIncrement: () => dispatch({ type: 'increment' }),
+  }));
 
   let errorThrown = false;
 
-  const ErrorConnectedComponent = connect(Counter, (state$, dispatch) => {
-    return {
-      counter: state$.pluck('counter'),
-      otherVal: state$.map((state) => {
-        if (state.counter % 2 !== 0) {
-          errorThrown = true;
-          throw new Error('forced error');
-        }
+  const ErrorConnectedComponent = connect(Counter, (state$, dispatch) => ({
+    counter: state$.pluck('counter'),
+    otherVal: state$.map((state) => {
+      if (state.counter % 2 !== 0) {
+        errorThrown = true;
+        throw new Error('forced error');
+      }
 
-        return state.counter + 12;
-      }),
-      onIncrement: () => dispatch({ type: 'increment' }),
-    };
-  });
+      return state.counter + 12;
+    }),
+    onIncrement: () => dispatch({ type: 'increment' }),
+  }));
 
   let store;
   function Application({ component }) {
@@ -80,6 +89,10 @@ describe('connect', function () {
       </Provider>
     );
   }
+
+  Application.propTypes = {
+    component: PropTypes.func.isRequired,
+  };
 
   afterEach(() => {
     ReactDOM.unmountComponentAtNode(document.getElementById('root'));

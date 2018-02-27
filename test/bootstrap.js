@@ -26,5 +26,5 @@ global.navigator = {
   userAgent: 'node.js',
 };
 
-require('raf/polyfill');
+require('raf/polyfill'); // eslint-disable-line import/newline-after-import
 copyProps(window, global);

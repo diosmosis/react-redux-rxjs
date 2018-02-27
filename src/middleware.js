@@ -17,7 +17,7 @@ export default function middleware(...sagas) {
       observable.subscribe({
         next: (nextAction) => {
           if (!nextAction) {
-            return;
+            return undefined;
           }
 
           return store.dispatch(nextAction);

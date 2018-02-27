@@ -1,6 +1,6 @@
 {
   "parser": "babel-eslint",
-  "extends": "airbnb-base",
+  "extends": "airbnb",
   "rules": {
     "no-use-before-define": ["error", { "functions": false, "classes": true }],
     "no-restricted-syntax": [0]

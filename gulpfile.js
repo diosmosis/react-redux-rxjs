@@ -36,11 +36,11 @@ function lint(files) {
 }
 
 function lintSrc() {
-  return lint('src/**/*.js');
+  return lint('src/**/*.js*');
 }
 
 function lintTest() {
-  return lint('test/**/*.js');
+  return lint('test/**/*.js*');
 }
 
 function lintGulpfile() {
@@ -63,7 +63,7 @@ function build() {
       externals: {},
       module: {
         loaders: [
-          {test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader'}
+          {test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel-loader'}
         ]
       },
       devtool: 'source-map'
@@ -83,7 +83,7 @@ function copyOtherFiles() {
 }
 
 function _mocha() {
-  return gulp.src(['test/bootstrap.js', 'test/**/*.js'], {read: false})
+  return gulp.src(['test/bootstrap.js', 'test/**/*.js*'], {read: false})
     .pipe($.mocha({
       reporter: 'spec',
       ignoreLeaks: false,

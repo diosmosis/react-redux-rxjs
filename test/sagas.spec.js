@@ -14,19 +14,15 @@ describe('sagas', () => {
 
     const saga1 = actions => actions
       .filter(action => action.type === 'type-1')
-      .map(() => {
-        return ({
-          type: 'type-2',
-        });
-      });
+      .map(() => ({
+        type: 'type-2',
+      }));
 
     const saga2 = actions => actions
       .filter(action => action.type === 'type-2')
-      .map(() => {
-        return ({
-          type: 'type-3',
-        })
-      });
+      .map(() => ({
+        type: 'type-3',
+      }));
 
     const collector = actions => actions
       .do((action) => {
