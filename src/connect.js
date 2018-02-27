@@ -5,6 +5,9 @@
 
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
+import 'rxjs/operators/switchMap';
+import 'rxjs/operators/map';
+import 'rxjs/operators/merge';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import storeShape from './store-shape';
@@ -17,27 +20,38 @@ export default function connect(WrappedComponent, mapStoreToProps) {
     }
 
     componentDidMount() {
-      // TODO: observble errors should be thrown in render
       const observableProps = mapStoreToProps(this.context.state$, this.context.store.dispatch);
 
-      this.dynamicPropsInited = {};
-      this.staticProps = {};
-      Object.keys(observableProps).forEach((propName) => {
+      const flattenedProps = Object.keys(observableProps).map((propName) => {
+        let result;
+
         const value = observableProps[propName];
         if (value instanceof Observable) {
-          value.subscribe(v => {
-            this.setState({ [propName]: v });
-          });
-
-          this.dynamicPropsInited[propName] = false;
+          result = value;
         } else {
-          this.staticProps[propName] = value;
+          result = Observable.of(value);
         }
+
+        return result.catch(e => {
+          console.log(`Error caught in ${propName} observable for connected ${WrappedComponent.name}:`,
+            e.stack || e.message || e);
+
+          return Observable.empty();
+        }).map(v => [propName, v]);
+      });
+
+      this.subscription = Observable.merge(...flattenedProps).subscribe((pair) => {
+        const [propName, v] = pair;
+        this.setState({ [propName]: v });
       });
     }
 
+    componentWillUnmount() {
+      this.subscription.unsubscribe();
+    }
+
     render() {
-      return <WrappedComponent {...this.state} {...this.staticProps} />;
+      return <WrappedComponent {...this.state} />;
     }
   }
 
